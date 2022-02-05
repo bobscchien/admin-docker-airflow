@@ -1,0 +1,25 @@
+###################################################
+# Cheatsheet of MySQL for creating Airflow Database
+###################################################
+
+# Clean
+DELETE FROM mysql.user where user='airflow' and host='localhost';
+DELETE FROM mysql.user where user='airflow' and host='192.168.101.1';
+DROP USER 'airflow'@'localhost';
+DROP USER 'airflow'@'192.168.101.1';
+FLUSH PRIVILEGES;
+
+DROP DATABASE airflow_db;
+
+# Create database & user
+CREATE DATABASE airflow_db;
+
+CREATE USER 'airflow'@'localhost' IDENTIFIED BY 'airflow';
+CREATE USER 'airflow'@'192.168.101.1' IDENTIFIED BY 'airflow';
+GRANT ALL PRIVILEGES ON airflow_db.* TO 'airflow'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON airflow_db.* TO 'airflow'@'192.168.101.1' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+# Check
+SELECT user FROM mysql.user;
+SHOW databases;
