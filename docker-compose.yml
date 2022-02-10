@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  airflow:
+    container_name: ${AIRFLOW_NAME}
+    hostname: ${AIRFLOW_NAME}
+    image: ${IMAGE}
+    user: ${AIRFLOW_USER}
+    volumes:
+      - .:${INIT_DIR}:ro
+      - ${LOCALHOST_DIR}:${AIRFLOW_HOME}:rw
+    networks:
+      custom-net:
+        ipv4_address: ${AIRFLOW_IP}
+    ports:
+      - 18080:8080
+    deploy:
+      resources:
+        limits:
+          cpus: ${AIRFLOW_CPUS}
+          memory: ${AIRFLOW_MEMORY}
+    restart: unless-stopped
+    command: tail -f /dev/null
+
+### Network & Volume
+
+networks:
+  custom-net:
+    external:
+      name: ${CUSTOM_NET}
